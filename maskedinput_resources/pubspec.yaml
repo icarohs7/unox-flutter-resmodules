@@ -1,11 +1,11 @@
 name: maskedinput_resources
 version: 0.0.1
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 dependencies:
-  mask_text_input_formatter: ^1.2.1
   flutter:
     sdk: flutter
+  mask_text_input_formatter: ^2.0.0-nullsafety.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

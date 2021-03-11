@@ -1,24 +1,22 @@
 name: core_resources
 version: 0.0.1
+publish_to: none
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 dependencies:
-  async: ^2.4.2
-  build_context: ^2.0.4
-  dartx: 0.5.0
-  freezed_annotation: ^0.12.0
-  enhanced_future_builder: ^1.0.3
-  rxdart: ^0.25.0
-  transparent_image: ^1.0.0
+  async: ^2.5.0
+  build_context: ^3.0.0
+  dartx: ^0.6.0
+  enhanced_future_builder:
+    git: https://github.com/icarohs7/enhanced_future_builder
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_cupertino_localizations: ^1.0.1
+  freezed_annotation: ^0.14.0
+  rxdart: ^0.26.0
+  transparent_image: ^2.0.0-nullsafety.0
 dev_dependencies:
-  build_runner:
-  freezed: ^0.12.7
-  json_serializable: ^3.5.1
   flutter_test:
     sdk: flutter
 flutter:

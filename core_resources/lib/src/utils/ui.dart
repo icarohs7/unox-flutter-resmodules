@@ -6,24 +6,23 @@ import 'package:flutter/services.dart';
 
 Future<bool> askConfirmation(
   BuildContext context, {
-  String titleText,
-  Widget title,
-  Widget content,
-  FutureOr<void> Function() onConfirm,
-  FutureOr<void> Function() onCancel,
-  String cancelText,
-  String confirmText,
+  String? titleText,
+  Widget? title,
+  Widget? content,
+  FutureOr<void> Function()? onConfirm,
+  FutureOr<void> Function()? onCancel,
+  String? cancelText,
+  String? confirmText,
 }) async {
-  return await showConfirmDialog<bool>(
-        context,
-        title: titleText != null ? Text(titleText) : title,
-        content: content,
-        onConfirm: onConfirm,
-        onCancel: onCancel,
-        cancelText: cancelText,
-        confirmText: confirmText,
-      ) ??
-      false;
+  return showConfirmDialog(
+    context,
+    title: titleText != null ? Text(titleText) : title,
+    content: content,
+    onConfirm: onConfirm,
+    onCancel: onCancel,
+    cancelText: cancelText,
+    confirmText: confirmText,
+  );
 }
 
 Future<void> showSystemOverlays() async {

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-RelativeRect getWidgetPositionAsRelativeRect(BuildContext context, {Offset offset}) {
-  final RenderBox inkWell = context.findRenderObject();
-  final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+RelativeRect? getWidgetPositionAsRelativeRect(BuildContext context, {Offset? offset}) {
+  final inkWell = context.findRenderObject();
+  final overlay = Overlay.of(context)?.context.findRenderObject();
+  if (inkWell is! RenderBox) return null;
+  if (overlay == null || overlay is! RenderBox) return null;
   return RelativeRect.fromRect(
     Rect.fromPoints(
       inkWell.localToGlobal(offset ?? Offset.zero, ancestor: overlay),

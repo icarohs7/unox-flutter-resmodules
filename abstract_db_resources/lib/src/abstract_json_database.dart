@@ -3,7 +3,7 @@
 ///Map<String, dynamic> objects
 abstract class AbstractJsonDatabase {
   ///Store single item
-  Future<int> insert(Map<String, dynamic> item, {int key});
+  Future<int> insert(Map<String, dynamic> item, {int? key});
 
   ///Store multiple items
   Future<void> insertAll(List<Map<String, dynamic>> items);
@@ -20,10 +20,10 @@ abstract class AbstractJsonDatabase {
   ///Remove data, if [key] is defined, only the record
   ///identified will be deleted, otherwise erase all
   ///records
-  Future<void> delete({int key});
+  Future<void> delete({int? key});
 
   ///Get a record identified by the given [key]
-  Future<Map<String, dynamic>> getSingle(int key);
+  Future<Map<String, dynamic>?> getSingle(int key);
 
   ///Get all records stored
   Future<List<Map<String, dynamic>>> getAll();
@@ -33,5 +33,5 @@ abstract class AbstractJsonDatabase {
 
   ///Stream of the latest version of a record
   ///identified by the given [key]
-  Stream<Map<String, dynamic>> streamSingle(int key);
+  Stream<Map<String, dynamic>?> streamSingle(int key);
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// child
 class ListViewWithPaddedChildren extends StatelessWidget {
   const ListViewWithPaddedChildren({
-    Key key,
+    Key? key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.controller,
@@ -27,18 +27,18 @@ class ListViewWithPaddedChildren extends StatelessWidget {
 
   final Axis scrollDirection;
   final bool reverse;
-  final ScrollController controller;
-  final bool primary;
-  final ScrollPhysics physics;
+  final ScrollController? controller;
+  final bool? primary;
+  final ScrollPhysics? physics;
   final bool shrinkWrap;
-  final EdgeInsetsGeometry padding;
-  final double itemExtent;
+  final EdgeInsetsGeometry? padding;
+  final double? itemExtent;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;
-  final double cacheExtent;
+  final double? cacheExtent;
   final List<Widget> children;
-  final int semanticChildCount;
+  final int? semanticChildCount;
   final DragStartBehavior dragStartBehavior;
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final EdgeInsets childrenPadding;

@@ -1,41 +1,39 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive_db_resources/hive_db_resources.dart';
-
-Box<String> _globalBox;
 
 /// Global box used to persist data as
 /// an alternative to using shared preferences
-Box<String> get globalBox => _globalBox ??= Hive.box<String>('globalBox');
+late final globalBox = Hive.box<String>('globalBox');
 
 ///Implementation of [AbstractTDatabase] using Hive
 ///as the underlying engine.
 ///<br/> Either [jsonDatabase] or [dbName] must be defined
 // ignore: non_constant_identifier_names
 AbstractTDatabase<T> HiveTDatabase<T>({
-  HiveDatabase jsonDatabase,
-  String dbName,
-  @required T Function(Map<String, dynamic>) adapter,
+  HiveDatabase? jsonDatabase,
+  String? dbName,
+  required T Function(Map<String, dynamic>) adapter,
 }) {
-  final dbImpl = jsonDatabase ?? HiveJsonDatabase(boxName: dbName);
+  assert(jsonDatabase != null || dbName != null);
+  final dbImpl = jsonDatabase ?? HiveJsonDatabase(boxName: dbName!);
   return AbstractTDatabase(jsonDatabase: dbImpl, adapter: adapter);
 }
 
 ///Implementation of [AbstractJsonDatabase] using Hive
 ///as the underlying engine
 // ignore: non_constant_identifier_names
-AbstractJsonDatabase HiveJsonDatabase({@required String boxName}) {
+AbstractJsonDatabase HiveJsonDatabase({required String boxName}) {
   return HiveDatabase(boxName: boxName);
 }
 
 class HiveDatabase extends AbstractJsonDatabase {
-  HiveDatabase({@required this.boxName, this.boxFactory});
+  HiveDatabase({required this.boxName, this.boxFactory});
 
   final String boxName;
-  final Box<String> Function(String boxName) boxFactory;
+  final Box<String> Function(String? boxName)? boxFactory;
 
-  Future<Box<String>> _getBox() async => boxFactory?.invoke(boxName) ?? await Hive.openBox(boxName);
+  Future<Box<String>> _getBox() async => boxFactory?.call(boxName) ?? await Hive.openBox(boxName);
 
   String _serialize(Map<String, dynamic> item) => jsonEncode(item);
 
@@ -48,7 +46,7 @@ class HiveDatabase extends AbstractJsonDatabase {
   }
 
   @override
-  Future<int> insert(Map<String, dynamic> item, {int key}) async {
+  Future<int> insert(Map<String, dynamic> item, {int? key}) async {
     final box = await _getBox();
     if (key != null) {
       await box.put(key, _serialize(item));
@@ -85,7 +83,7 @@ class HiveDatabase extends AbstractJsonDatabase {
   }
 
   @override
-  Future<void> delete({int key}) async {
+  Future<void> delete({int? key}) async {
     final box = await _getBox();
     if (key != null) {
       await box.delete(key);
@@ -95,7 +93,7 @@ class HiveDatabase extends AbstractJsonDatabase {
   }
 
   @override
-  Future<Map<String, dynamic>> getSingle(int key) async {
+  Future<Map<String, dynamic>?> getSingle(int key) async {
     final item = (await _getBox()).get(key);
     return item != null ? _deserialize(item) : null;
   }
@@ -115,7 +113,7 @@ class HiveDatabase extends AbstractJsonDatabase {
   }
 
   @override
-  Stream<Map<String, dynamic>> streamSingle(int key) async* {
-    yield* (await _getBox()).watch(key: key).asyncMap<Map<String, dynamic>>((e) => getSingle(key));
+  Stream<Map<String, dynamic>?> streamSingle(int key) async* {
+    yield* (await _getBox()).watch(key: key).asyncMap<Map<String, dynamic>?>((e) => getSingle(key));
   }
 }

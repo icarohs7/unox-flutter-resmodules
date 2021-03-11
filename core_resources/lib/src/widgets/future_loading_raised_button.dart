@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class FutureLoadingRaisedButton extends StatefulWidget {
   const FutureLoadingRaisedButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.child,
   });
 
-  final Widget child;
+  final Widget? child;
   final Future<void> Function() onPressed;
 
   @override

@@ -1,8 +1,9 @@
+import 'package:core_resources/src/extensions/object_extensions.dart';
 import 'package:flutter/material.dart';
 
 class LoadingRaisedButton extends StatelessWidget {
   const LoadingRaisedButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.child,
     this.isLoading = false,
     this.color,
@@ -12,25 +13,27 @@ class LoadingRaisedButton extends StatelessWidget {
     this.padding,
   });
 
-  final Widget child;
-  final void Function() onPressed;
+  final Widget? child;
+  final void Function()? onPressed;
   final bool isLoading;
-  final Color color;
-  final Color textColor;
-  final Color progressIndicatorColor;
-  final ShapeBorder shape;
-  final EdgeInsetsGeometry padding;
+  final Color? color;
+  final Color? textColor;
+  final Color? progressIndicatorColor;
+  final OutlinedBorder? shape;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
       absorbing: isLoading,
-      child: RaisedButton(
-        color: color,
-        textColor: textColor,
+      child: ElevatedButton(
         onPressed: onPressed,
-        shape: shape,
-        padding: padding,
+        style: ButtonStyle(
+          backgroundColor: color?.materialProperty,
+          foregroundColor: textColor?.materialProperty,
+          shape: shape?.materialProperty,
+          padding: padding?.materialProperty,
+        ),
         child: _ButtonContent(
           isLoading: isLoading,
           child: child,
@@ -44,7 +47,7 @@ class LoadingRaisedButton extends StatelessWidget {
 
 class LoadingFlatButton extends StatelessWidget {
   const LoadingFlatButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.child,
     this.isLoading = false,
     this.color,
@@ -54,25 +57,27 @@ class LoadingFlatButton extends StatelessWidget {
     this.padding,
   });
 
-  final Widget child;
+  final Widget? child;
   final void Function() onPressed;
   final bool isLoading;
-  final Color color;
-  final Color textColor;
-  final Color progressIndicatorColor;
-  final ShapeBorder shape;
-  final EdgeInsetsGeometry padding;
+  final Color? color;
+  final Color? textColor;
+  final Color? progressIndicatorColor;
+  final OutlinedBorder? shape;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
       absorbing: isLoading,
-      child: FlatButton(
-        color: color,
-        textColor: textColor,
+      child: TextButton(
         onPressed: onPressed,
-        shape: shape,
-        padding: padding,
+        style:ButtonStyle(
+          foregroundColor: color?.materialProperty,
+          backgroundColor: textColor?.materialProperty,
+          shape: shape?.materialProperty,
+          padding: padding?.materialProperty,
+        ),
         child: _ButtonContent(
           isLoading: isLoading,
           child: child,
@@ -86,7 +91,7 @@ class LoadingFlatButton extends StatelessWidget {
 
 class LoadingFloatingActionButton extends StatelessWidget {
   const LoadingFloatingActionButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.child,
     this.isLoading = false,
     this.backgroundColor,
@@ -95,13 +100,13 @@ class LoadingFloatingActionButton extends StatelessWidget {
     this.padding,
   });
 
-  final Widget child;
-  final void Function() onPressed;
+  final Widget? child;
+  final void Function()? onPressed;
   final bool isLoading;
-  final Color backgroundColor;
-  final Color progressIndicatorColor;
-  final ShapeBorder shape;
-  final EdgeInsetsGeometry padding;
+  final Color? backgroundColor;
+  final Color? progressIndicatorColor;
+  final ShapeBorder? shape;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +128,14 @@ class LoadingFloatingActionButton extends StatelessWidget {
 
 class _ButtonContent extends StatelessWidget {
   const _ButtonContent({
-    Key key,
-    @required this.isLoading,
-    @required this.child,
-    @required this.progressIndicatorColor,
+    Key? key,
+    required this.isLoading,
+    required this.child,
+    required this.progressIndicatorColor,
   }) : super(key: key);
 
   final bool isLoading;
-  final Widget child;
+  final Widget? child;
   final Color progressIndicatorColor;
 
   @override

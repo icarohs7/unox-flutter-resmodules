@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class NumberStepper extends StatelessWidget {
   const NumberStepper(
     this.number, {
-    @required this.onChange,
+    required this.onChange,
     this.iconColor,
     this.increaseEnabled = true,
     this.decreaseEnabled = true,
@@ -12,10 +12,10 @@ class NumberStepper extends StatelessWidget {
 
   final int number;
   final void Function(int number, NumberStepperEvent event) onChange;
-  final Color iconColor;
+  final Color? iconColor;
   final bool increaseEnabled;
   final bool decreaseEnabled;
-  final Decoration decoration;
+  final Decoration? decoration;
 
   @override
   Widget build(BuildContext context) {

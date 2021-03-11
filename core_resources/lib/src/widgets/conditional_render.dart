@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 ///the animation returned from the [transitionBuilder]
 class ConditionalRender extends StatelessWidget {
   const ConditionalRender({
-    @required this.condition,
+    required this.condition,
     this.child,
     this.childBuilder,
     this.childElse,
@@ -17,16 +17,16 @@ class ConditionalRender extends StatelessWidget {
     this.switchInCurve = Curves.linear,
     this.switchOutCurve = Curves.linear,
     this.animationsEnabled = true,
-  });
+  }) : assert(child != null || childBuilder != null);
 
   final bool condition;
-  final Widget child;
-  final Widget Function(BuildContext) childBuilder;
-  final Widget childElse;
-  final Widget Function(BuildContext) childElseBuilder;
+  final Widget? child;
+  final Widget Function(BuildContext)? childBuilder;
+  final Widget? childElse;
+  final Widget Function(BuildContext)? childElseBuilder;
   final Duration duration;
-  final Duration reverseDuration;
-  final AnimatedSwitcherTransitionBuilder transitionBuilder;
+  final Duration? reverseDuration;
+  final AnimatedSwitcherTransitionBuilder? transitionBuilder;
   final Curve switchInCurve;
   final Curve switchOutCurve;
   final bool animationsEnabled;
@@ -34,7 +34,7 @@ class ConditionalRender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (animationsEnabled == false) {
-      return condition ? (child ?? childBuilder?.call(context)) : SizedBox();
+      return condition ? (child ?? childBuilder?.call(context))! : SizedBox();
     }
     return AnimatedSwitcher(
       duration: duration,

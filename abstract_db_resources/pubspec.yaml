@@ -1,7 +1,8 @@
 name: abstract_db_resources
 version: 0.0.1
+publish_to: none
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 dependencies:
   core_resources:
     path: ../core_resources

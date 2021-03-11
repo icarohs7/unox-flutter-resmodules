@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-
 ///Return the result of invoking the
 ///given function or null if it throws
-T runCatching<T>(T Function() fn) {
+T? runCatching<T>(T Function() fn) {
   try {
     return fn();
   } catch (_) {
@@ -31,7 +29,7 @@ BenchmarkedResult<T> measureTimeMillis<T>(T Function() operation) {
 }
 
 class BenchmarkedResult<T> {
-  BenchmarkedResult({@required this.value, @required this.milliseconds});
+  BenchmarkedResult({required this.value, required this.milliseconds});
 
   final T value;
   final int milliseconds;

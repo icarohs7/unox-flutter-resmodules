@@ -11,9 +11,9 @@ class AutoCompleteTextView extends StatefulWidget with AutoCompleteTextInterface
   final TextEditingController controller;
 
   //AutoCompleteTextField properties
-  final Color tfCursorColor;
+  final Color? tfCursorColor;
   final double tfCursorWidth;
-  final FormFieldValidator<String> tfValidator;
+  final FormFieldValidator<String>? tfValidator;
   final TextStyle tfStyle;
   final InputDecoration tfTextDecoration;
   final TextAlign tfTextAlign;
@@ -21,15 +21,15 @@ class AutoCompleteTextView extends StatefulWidget with AutoCompleteTextInterface
   //Suggestiondrop Down properties
   final TextStyle suggestionStyle;
   final TextAlign suggestionTextAlign;
-  final OnTapCallback onTapCallback;
+  final OnTapCallback? onTapCallback;
   final FutureOr<List<String>> Function(String query) getSuggestionsMethod;
-  final Function focusGained;
-  final Function focusLost;
+  final Function? focusGained;
+  final Function? focusLost;
   final int suggestionsApiFetchDelay;
-  final void Function(String) onValueChanged;
+  final void Function(String)? onValueChanged;
 
   AutoCompleteTextView(
-      {@required this.controller,
+      {required this.controller,
       this.onTapCallback,
       this.maxHeight = 200,
       this.tfCursorColor,
@@ -40,7 +40,7 @@ class AutoCompleteTextView extends StatefulWidget with AutoCompleteTextInterface
       this.tfTextAlign = TextAlign.left,
       this.suggestionStyle = const TextStyle(color: Colors.black),
       this.suggestionTextAlign = TextAlign.left,
-      @required this.getSuggestionsMethod,
+      required this.getSuggestionsMethod,
       this.focusGained,
       this.suggestionsApiFetchDelay = 0,
       this.focusLost,
@@ -51,19 +51,17 @@ class AutoCompleteTextView extends StatefulWidget with AutoCompleteTextInterface
 
   //This funciton is called when a user clicks on a suggestion
   @override
-  void onTappedSuggestion(String suggestion) {
-    onTapCallback(suggestion);
-  }
+  void onTappedSuggestion(String suggestion) => onTapCallback?.call(suggestion);
 }
 
 class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
   ScrollController scrollController = ScrollController();
   final _focusNode = FocusNode();
-  OverlayEntry _overlayEntry;
+  late OverlayEntry _overlayEntry;
   final _layerLink = LayerLink();
   final suggestionsStreamController = BehaviorSubject<List<String>>();
-  var suggestionShowList = <String>[];
-  Timer _debounce;
+  List<String> suggestionShowList = <String>[];
+  Timer? _debounce;
   bool isSearching = true;
 
   @override
@@ -72,7 +70,7 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         _overlayEntry = _createOverlayEntry();
-        Overlay.of(context).insert(_overlayEntry);
+        Overlay.of(context)?.insert(_overlayEntry);
         widget.focusGained?.call();
       } else {
         _overlayEntry.remove();
@@ -83,7 +81,7 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
   }
 
   void _onSearchChanged() {
-    if (_debounce?.isActive ?? false) _debounce.cancel();
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(Duration(milliseconds: widget.suggestionsApiFetchDelay), () {
       if (isSearching == true) {
         _getSuggestions(widget.controller.text);
@@ -92,14 +90,15 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
   }
 
   Future<void> _getSuggestions(String data) async {
-    if (data.isNotEmpty && data != null) {
+    if (data.isNotEmpty) {
       final list = await widget.getSuggestionsMethod(data);
       suggestionsStreamController.sink.add(list);
     }
   }
 
   OverlayEntry _createOverlayEntry() {
-    final RenderBox renderBox = context.findRenderObject();
+    // ignore: avoid_as
+    final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     return OverlayEntry(
         builder: (context) => Positioned(
@@ -110,11 +109,11 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
                 offset: Offset(0.0, size.height + 5.0),
                 child: Material(
                   elevation: 4.0,
-                  child: StreamBuilder<Object>(
+                  child: StreamBuilder<List<String>>(
                       stream: suggestionsStreamController.stream,
                       builder: (context, suggestionData) {
                         if (suggestionData.hasData && widget.controller.text.isNotEmpty) {
-                          suggestionShowList = suggestionData.data;
+                          suggestionShowList = suggestionData.data ?? [];
                           return ConstrainedBox(
                             constraints: BoxConstraints(
                               maxHeight: 200,

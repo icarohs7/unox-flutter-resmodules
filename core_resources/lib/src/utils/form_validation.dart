@@ -18,7 +18,7 @@ FormFieldValidator<String> requiredValidator({String errorMessage = 'Campo obrig
 }
 
 /// Validator only allowing values above the given length
-FormFieldValidator<String> minLengthValidator(int minLength, {String errorMessage}) {
+FormFieldValidator<String> minLengthValidator(int minLength, {String? errorMessage}) {
   return (input) {
     return (input ?? '').length < minLength
         ? (errorMessage ?? 'Mínimo de $minLength caracteres requiridos')
@@ -33,8 +33,9 @@ FormFieldValidator<String> emailValidator({
 }) {
   final emailRegex = RegExp(r'''^[^@]+@[^@]+$''');
   return (input) {
-    if (allowBlank && input.isBlank) return null;
-    return emailRegex.hasMatch(input) ? null : errorMessage;
+    final str = input ?? '';
+    if (allowBlank && str.isBlank) return null;
+    return emailRegex.hasMatch(str) ? null : errorMessage;
   };
 }
 
@@ -43,28 +44,28 @@ FormFieldValidator<String> phoneValidator({
   int requiredLength = 11,
   String errorMessage = 'Telefone inválido',
 }) {
-  return (input) => input.onlyNumbers().length == requiredLength ? null : errorMessage;
+  return (input) => (input ?? '').onlyNumbers().length == requiredLength ? null : errorMessage;
 }
 
 /// Validator only allowing valid cpf numbers
 FormFieldValidator<String> cpfValidator({String errorMessage = 'CPF inválido'}) {
-  return (input) => input.onlyNumbers().length == 11 ? null : errorMessage;
+  return (input) => (input ?? '').onlyNumbers().length == 11 ? null : errorMessage;
 }
 
 /// Validator only allowing valid cnpj numbers
 FormFieldValidator<String> cnpjValidator({String errorMessage = 'CNPJ inválido'}) {
-  return (input) => input.onlyNumbers().length == 14 ? null : errorMessage;
+  return (input) => (input ?? '').onlyNumbers().length == 14 ? null : errorMessage;
 }
 
 /// Validator only allowing valid zip numbers
 FormFieldValidator<String> zipValidator({String errorMessage = 'CEP inválido'}) {
-  return (input) => input.onlyNumbers().length == 8 ? null : errorMessage;
+  return (input) => (input ?? '').onlyNumbers().length == 8 ? null : errorMessage;
 }
 
 /// Validator only allowing valid zip numbers
 FormFieldValidator<String> userValidator({String errorMessage = 'Nome de usuário inválido'}) {
   return (input) {
     final regex = RegExp(r'^[\w\._]+$');
-    return regex.hasMatch(input) ? null : errorMessage;
+    return regex.hasMatch(input ?? '') ? null : errorMessage;
   };
 }

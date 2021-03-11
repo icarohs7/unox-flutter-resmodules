@@ -1,9 +1,32 @@
-import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+class Tuple2<A,B> {
+  final A value1;
+  final B value2;
 
-part 'tuple.freezed.dart';
+  const Tuple2(this.value1,this.value2);
 
-@freezed
-abstract class Tuple2<A, B> with _$Tuple2 {
-  const factory Tuple2(A value1, B value2) = _Tuple2;
+  factory Tuple2.fromJson(Map<String, dynamic> json) {
+    return Tuple2(json['value1'],json['value2']);
+  }
+
+  Map<String, dynamic> toJson() => {'value1': value1, 'value2': value2};
+
+  Tuple2 copyWith({A? value1, B? value2}) {
+    return Tuple2(value1 ?? this.value1, value2 ?? this.value2);
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Tuple2 &&
+          runtimeType == other.runtimeType &&
+          value1 == other.value1 &&
+          value2 == other.value2;
+
+  @override
+  int get hashCode => value1.hashCode ^ value2.hashCode;
+
+  @override
+  String toString() {
+    return 'Tuple2(value1: $value1, value2: $value2)';
+  }
 }

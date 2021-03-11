@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 class DismissibleFromEndToStart extends StatelessWidget {
   const DismissibleFromEndToStart({
-    @required this.itemKey,
-    @required this.onDismissed,
-    @required this.child,
+    required this.itemKey,
+    required this.onDismissed,
+    required this.child,
     this.confirmDismiss,
     this.background,
   });
 
   final Key itemKey;
-  final Future<bool> Function() confirmDismiss;
+  final Future<bool> Function()? confirmDismiss;
   final void Function() onDismissed;
-  final Widget background;
+  final Widget? background;
   final Widget child;
 
   @override
@@ -20,7 +20,7 @@ class DismissibleFromEndToStart extends StatelessWidget {
     return Dismissible(
       key: itemKey,
       direction: DismissDirection.endToStart,
-      confirmDismiss: (_) => confirmDismiss != null ? confirmDismiss() : Future.value(true),
+      confirmDismiss: (_) => confirmDismiss?.call() ?? Future.value(true),
       onDismissed: (_) => onDismissed(),
       background: background ??
           Container(

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-Future<T> showSimpleAlert<T>(
+Future<T?> showSimpleAlert<T>(
   BuildContext context, {
-  Widget title,
-  Widget content,
-  String confirmText,
-  Function() onConfirm,
+  Widget? title,
+  Widget? content,
+  String? confirmText,
+  Function()? onConfirm,
 }) {
   return showDialog(
     context: context,
@@ -21,13 +21,13 @@ Future<T> showSimpleAlert<T>(
 }
 
 class SimpleAlert extends StatelessWidget {
-  final Widget title;
-  final Widget content;
-  final String confirmText;
-  final Function() onConfirm;
+  final Widget? title;
+  final Widget? content;
+  final String? confirmText;
+  final Function()? onConfirm;
 
   const SimpleAlert({
-    Key key,
+    Key? key,
     this.title,
     this.content,
     this.onConfirm,
@@ -40,46 +40,47 @@ class SimpleAlert extends StatelessWidget {
       title: title,
       content: content,
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(confirmText ?? 'Ok'),
-          onPressed: () => onConfirm != null ? onConfirm() : Navigator.pop(context),
+          onPressed: () => onConfirm?.call() ?? Navigator.pop(context),
         ),
       ],
     );
   }
 }
 
-Future<T> showConfirmDialog<T>(
+Future<bool> showConfirmDialog(
   BuildContext context, {
-  Widget title,
-  Widget content,
-  FutureOr<void> Function() onConfirm,
-  FutureOr<void> Function() onCancel,
-  String cancelText,
-  String confirmText,
-}) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return ConfirmDialog(
-        title: title,
-        content: content,
-        onConfirm: onConfirm,
-        onCancel: onCancel,
-        cancelText: cancelText,
-        confirmText: confirmText,
-      );
-    },
-  );
+  Widget? title,
+  Widget? content,
+  FutureOr<void> Function()? onConfirm,
+  FutureOr<void> Function()? onCancel,
+  String? cancelText,
+  String? confirmText,
+}) async {
+  return (await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return ConfirmDialog(
+            title: title,
+            content: content,
+            onConfirm: onConfirm,
+            onCancel: onCancel,
+            cancelText: cancelText,
+            confirmText: confirmText,
+          );
+        },
+      )) ??
+      false;
 }
 
 class ConfirmDialog extends StatelessWidget {
-  final Widget title;
-  final Widget content;
-  final FutureOr<void> Function() onConfirm;
-  final FutureOr<void> Function() onCancel;
-  final String cancelText;
-  final String confirmText;
+  final Widget? title;
+  final Widget? content;
+  final FutureOr<void> Function()? onConfirm;
+  final FutureOr<void> Function()? onCancel;
+  final String? cancelText;
+  final String? confirmText;
 
   const ConfirmDialog({
     this.title,
@@ -88,7 +89,7 @@ class ConfirmDialog extends StatelessWidget {
     this.onCancel,
     this.cancelText,
     this.confirmText,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -97,14 +98,18 @@ class ConfirmDialog extends StatelessWidget {
       title: title,
       content: content,
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(cancelText ?? 'Cancelar'),
-          textColor: Theme.of(context).primaryColor,
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+          ),
           onPressed: onCancel ?? () => Navigator.of(context).pop(false),
         ),
-        FlatButton(
+        TextButton(
           child: Text(confirmText ?? 'Confirmar'),
-          textColor: Theme.of(context).primaryColor,
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+          ),
           onPressed: onConfirm ?? () => Navigator.of(context).pop(true),
         )
       ],

@@ -4,7 +4,6 @@ import 'package:core_resources/core_resources.dart';
 
 class Try<A> {
   factory Try(A op(), {String messageOnError = ''}) {
-    assert(messageOnError != null);
     try {
       return Try.value(op());
     } catch (e, s) {
@@ -13,7 +12,6 @@ class Try<A> {
   }
 
   static Future<Try<A>> async<A>(FutureOr<A> op(), {String messageOnError = ''}) async {
-    assert(messageOnError != null);
     try {
       return Try.value(await op());
     } catch (e, s) {
@@ -26,22 +24,20 @@ class Try<A> {
         exception = null,
         stacktrace = null;
 
-  Try.message(this.message, {this.exception, this.stacktrace})
-      : assert(message != null),
-        value = null;
+  Try.message(this.message, {this.exception, this.stacktrace}) : value = null;
 
   Try.exception(this.exception, {this.message = '', this.stacktrace})
       : assert(exception != null),
         value = null;
 
-  final A value;
+  final A? value;
   final String message;
   final dynamic exception;
-  final StackTrace stacktrace;
+  final StackTrace? stacktrace;
 
-  bool get isValue => message.isBlank && exception == null;
+  bool get isValue => message.isBlank && exception == null && value != null;
 
-  B fold<B>(B ifError(), B ifValue(A a)) => isValue ? ifValue(value) : ifError();
+  B fold<B>(B ifError(), B ifValue(A a)) => isValue ? ifValue(value!) : ifError();
 
   Try<B> map<B>(B f(A a)) {
     return fold(

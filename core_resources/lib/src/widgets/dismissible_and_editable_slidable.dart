@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 class DismissibleAndEditableSlidable extends StatelessWidget {
   const DismissibleAndEditableSlidable({
-    @required this.itemKey,
-    @required this.onDismissed,
-    @required this.onEdited,
-    @required this.child,
+    required this.itemKey,
+    required this.onDismissed,
+    required this.onEdited,
+    required this.child,
     this.confirmDismiss,
     this.backgroundDismiss,
     this.backgroundEdit,
   });
 
   final Key itemKey;
-  final Future<bool> Function() confirmDismiss;
+  final Future<bool> Function()? confirmDismiss;
   final void Function() onDismissed;
   final void Function() onEdited;
-  final Widget backgroundDismiss;
-  final Widget backgroundEdit;
+  final Widget? backgroundDismiss;
+  final Widget? backgroundEdit;
   final Widget child;
 
   @override
@@ -27,7 +27,7 @@ class DismissibleAndEditableSlidable extends StatelessWidget {
       confirmDismiss: (direction) async {
         switch (direction) {
           case DismissDirection.endToStart:
-            return confirmDismiss?.call() ?? true;
+            return (await confirmDismiss?.call()) ?? true;
           case DismissDirection.startToEnd:
             onEdited();
             return false;

@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 /// its [onTap] when true
 class RefreshActionButton extends StatelessWidget {
   const RefreshActionButton({
-    bool isRefreshing,
+    this.isRefreshing = false,
     this.onTap,
-  }) : isRefreshing = isRefreshing ?? false;
+  });
 
   final bool isRefreshing;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

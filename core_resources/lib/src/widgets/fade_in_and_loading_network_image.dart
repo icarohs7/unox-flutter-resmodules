@@ -13,9 +13,9 @@ class FadeInAndLoadingNetworkImage extends StatelessWidget {
   });
 
   final String imageUrl;
-  final double height;
-  final double width;
-  final BoxFit fit;
+  final double? height;
+  final double? width;
+  final BoxFit? fit;
   final AlignmentGeometry alignment;
 
   @override
@@ -26,7 +26,7 @@ class FadeInAndLoadingNetworkImage extends StatelessWidget {
         CircularProgressIndicator(),
         FadeInImage.memoryNetwork(
           placeholder: kTransparentImage,
-          placeholderCacheWidth: width.toInt() ?? 15,
+          placeholderCacheWidth: width?.toInt() ?? 15,
           image: imageUrl.startsWith(RegExp(r'http|https')) ? imageUrl : 'https://$imageUrl',
           height: height,
           width: width,
